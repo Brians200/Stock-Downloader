@@ -11,10 +11,10 @@ public class tester {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ArrayList<ArrayList<String>> i = StockDownloader.Download("GOOG");
-		for(ArrayList<String> a:i)
+		ArrayList<StockObject> i = StockDownloader.Download("GOOG");
+		for(StockObject a:i)
 		{
+//TODO: ADD TO DATABASE
 			System.out.println(a);
 		}
 	}

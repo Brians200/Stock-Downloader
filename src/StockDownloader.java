@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
  */
 public class StockDownloader {
 	
-	public static ArrayList<ArrayList<String>> Download(String Symbol)
+	public static ArrayList<StockObject> Download(String Symbol)
 	{
-		ArrayList<ArrayList<String>> retern = new ArrayList<ArrayList<String>>();
+		ArrayList<StockObject> retern = new ArrayList<StockObject>();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH);
 		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -40,7 +40,19 @@ public class StockDownloader {
 				nextLine = bufferedReader.readLine();
 				if(nextLine !=null)
 				{
-					retern.add(split(nextLine));
+					ArrayList<String> currentLine = split(nextLine);
+					StockObject stockObject;
+					try
+					{
+						stockObject = new StockObject(currentLine.get(0), currentLine.get(1), currentLine.get(2), currentLine.get(3), currentLine.get(4), currentLine.get(5), currentLine.get(6));
+					}catch (Exception e)
+					{
+						//The first line from the stream is 
+						//Date,Open,High,Low,Close,Volume,Adj Close
+						//which we don't care about
+						continue;
+					}
+					retern.add(stockObject);
 				}
 				else
 				{
