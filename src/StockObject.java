@@ -24,11 +24,11 @@ public class StockObject {
 	public String toString()
 	{
 		return "Date: "+date+
-				" Open: "+open+
-				" High: "+high+
-				" Low: "+low+
-				" Close: "+close+
-				" Volume: "+volume+
-				" Adj Close:"+adjClose;
+				"\t Open: "+open+
+				"\t High: "+high+
+				"\t Low: "+low+
+				"\t Close: "+close+
+				"\t Volume: "+volume+
+				"\t Adj Close:"+adjClose;
 	}
 }
