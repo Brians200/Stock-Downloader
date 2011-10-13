@@ -1,6 +1,10 @@
+/**
+ * This class is used to hold information about a specific stock
+ * @author brian
+ *
+ */
+
 import java.math.BigDecimal;
-
-
 public class StockObject {
 	String date;
 	BigDecimal open;

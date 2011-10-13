@@ -10,14 +10,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This actually performs the stock downloading
+ * This actually performs the stock downloading and parsing
  * @author brian
  *
  */
 public class StockDownloader {
 	
+	/**
+	 * This returns an ArrayList of the StockObjects
+	 * for the date range and symbol given
+	 * @param Symbol - Symbol of the company
+	 * @return an ArrayList of the StockObjects
+	 */
 	public static ArrayList<StockObject> Download(String Symbol)
 	{
+//TODO: add a date range to params
 		ArrayList<StockObject> retern = new ArrayList<StockObject>();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -74,6 +81,21 @@ public class StockDownloader {
 		return retern;
 	}
 	
+	/**
+	 * This will strip each value from the CSV line.
+	 * "XOM","exxon, corporation", 234,21 
+	 * will become
+	 * XOM
+	 * exxon, corporation
+	 * 234
+	 * 21
+	 * 
+	 * This allows names to have commas in them if that were to happen.
+	 * This is just a pattern matching, so it will work for any number
+	 * of values in the CSV line
+	 * @param CSVline - line of values to be separated, comma separated
+	 * @return ArrayList of Strings containing the different values
+	 */
 	private static ArrayList<String> split(String CSVline)
 	{
 		ArrayList<String> retern = new ArrayList<String>();
@@ -86,13 +108,17 @@ public class StockDownloader {
 			String toKeep = removeSpacesAndQuotes(m.group());
 			if(!toKeep.equals(""))
 			{
-				//Rather than printing, we will actually have to add it to the appropriate spot in the database
 				retern.add(toKeep);
 			}
 		}
 		return retern;
 	}
 	
+	/**
+	 * Cleans up the string.
+	 * @param dirtyString - string to be cleaned
+	 * @return dirtyString without quotes and spaces on the outsides
+	 */
 	private static String removeSpacesAndQuotes(String dirtyString) {
 		String trimmedString = dirtyString.trim();
 		String noQuotes = trimmedString.replace("\"", "");
