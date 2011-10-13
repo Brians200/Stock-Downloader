@@ -5,9 +5,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.joda.time.DateTime;
 
 /**
  * This actually performs the stock downloading and parsing
@@ -20,15 +21,13 @@ public class StockDownloader {
 	 * This returns an ArrayList of the StockObjects
 	 * for the date range and symbol given
 	 * @param Symbol - Symbol of the company
+	 * @param beginDate - The first date you wish to include
+	 * @param endDate - The last date you wish to include
 	 * @return an ArrayList of the StockObjects
 	 */
-	public static ArrayList<StockObject> Download(String Symbol)
+	public static ArrayList<StockObject> Download(String Symbol, DateTime beginDate, DateTime endDate)
 	{
-//TODO: add a date range to params
 		ArrayList<StockObject> retern = new ArrayList<StockObject>();
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		int month = Calendar.getInstance().get(Calendar.MONTH);
-		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		
 		String nextLine;
 		URL url = null;
@@ -40,7 +39,15 @@ public class StockDownloader {
 			//http://greenido.wordpress.com/2009/12/22/yahoo-finance-hidden-api/
 			//where the FROM date is: &a=01&b=10&c=2010
 			//and the TO date is: &d=01&e=19&f=2010
-			url = new URL("http://ichart.yahoo.com/table.csv?s=GOOG&a=0&b=1&c=2000&d=" + Integer.toString(month) + "&e=" + Integer.toString(day) + "&f=" + Integer.toString(year) + "&g=d&ignore=.csv");
+			
+			//yahoo api uses [0-11] for months
+			url = new URL("http://ichart.yahoo.com/table.csv?s=GOOG&a="+ Integer.toString(beginDate.getMonthOfYear()-1) 
+																		+"&b="+ Integer.toString(beginDate.getDayOfMonth())
+																		+"&c="+ Integer.toString(beginDate.getYear())
+																		+"&d=" + Integer.toString(endDate.getMonthOfYear()-1) 
+																		+ "&e=" + Integer.toString(endDate.getDayOfMonth()) 
+																		+ "&f=" + Integer.toString(endDate.getYear()) 
+																		+ "&g=d&ignore=.csv");
 			urlConnection = url.openConnection();
 			inputStream = new InputStreamReader(urlConnection.getInputStream());
 			bufferedReader = new BufferedReader(inputStream);
