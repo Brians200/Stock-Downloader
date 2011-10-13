@@ -86,7 +86,7 @@ public class StockDownloader {
 					StockObject stockObject;
 					try
 					{
-						stockObject = new StockObject(currentLine.get(0), currentLine.get(1), currentLine.get(2), currentLine.get(3), currentLine.get(4), currentLine.get(5), currentLine.get(6));
+						stockObject = new StockObject(Symbol,currentLine.get(0), currentLine.get(1), currentLine.get(2), currentLine.get(3), currentLine.get(4), currentLine.get(5), currentLine.get(6));
 					}catch (Exception e)
 					{
 						//The first line from the stream is 

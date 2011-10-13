@@ -6,6 +6,7 @@
 
 import java.math.BigDecimal;
 public class StockObject {
+	String symbol;
 	String date;
 	BigDecimal open;
 	BigDecimal high;
@@ -14,8 +15,9 @@ public class StockObject {
 	BigDecimal volume;
 	BigDecimal adjClose;
 
-	public StockObject(String date,String open, String high, String low, String close, String volume, String adjClose)
+	public StockObject(String Symbol, String date,String open, String high, String low, String close, String volume, String adjClose)
 	{
+		this.symbol = Symbol;
 		this.date = date;
 		this.open = new BigDecimal(open);
 		this.high = new BigDecimal(high);
@@ -27,7 +29,8 @@ public class StockObject {
 	
 	public String toString()
 	{
-		return "Date: "+date+
+		return  "Symbol: "+symbol+
+				"\tDate: "+date+
 				"\t Open: "+open+
 				"\t High: "+high+
 				"\t Low: "+low+
