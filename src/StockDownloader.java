@@ -37,6 +37,9 @@ public class StockDownloader {
 		BufferedReader bufferedReader = null;
 		
 		try{
+			//http://greenido.wordpress.com/2009/12/22/yahoo-finance-hidden-api/
+			//where the FROM date is: &a=01&b=10&c=2010
+			//and the TO date is: &d=01&e=19&f=2010
 			url = new URL("http://ichart.yahoo.com/table.csv?s=GOOG&a=0&b=1&c=2000&d=" + Integer.toString(month) + "&e=" + Integer.toString(day) + "&f=" + Integer.toString(year) + "&g=d&ignore=.csv");
 			urlConnection = url.openConnection();
 			inputStream = new InputStreamReader(urlConnection.getInputStream());
