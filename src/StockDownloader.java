@@ -21,7 +21,7 @@ public class StockDownloader {
 		ArrayList<ArrayList<String>> retern = new ArrayList<ArrayList<String>>();
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH);
-		int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 		
 		String nextLine;
 		URL url = null;
