@@ -23,13 +23,35 @@ public class StockDownloader {
 	 * This returns an ArrayList of the StockObjects
 	 * for the date range and symbol given
 	 * @param Symbol - Symbol of the company
-	 * @param beginDate - The first date you wish to include
-	 * @param endDate - The last date you wish to include
+	 * @param beginDate - The first date you wish to include "yyyy/MM/dd" format or "NOW"
+	 * @param endDate - The last date you wish to include "yyyy/MM/dd" format or "NOW"
 	 * @return an ArrayList of the StockObjects
 	 */
-	public static ArrayList<StockObject> Download(String Symbol, DateTime beginDate, DateTime endDate)
+	public static ArrayList<StockObject> Download(String Symbol, String BeginDate, String EndDate)
 	{
 		ArrayList<StockObject> retern = new ArrayList<StockObject>();
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+		
+		DateTime beginDate;
+		DateTime endDate;
+		if(BeginDate.equals("NOW"))
+		{
+			beginDate= DateTime.now();
+		}
+		else
+		{
+			beginDate = DateTime.parse(BeginDate,dateTimeFormatter);
+		}
+		
+		if(EndDate.equals("NOW"))
+		{
+			endDate = DateTime.now();
+		}
+		else
+		{
+			endDate = DateTime.parse(EndDate,dateTimeFormatter);
+		}
 		
 		String nextLine;
 		URL url = null;
@@ -100,9 +122,8 @@ public class StockDownloader {
 		//Assuming that the entire History is jan 1, 1900  through NOW
 		//Can easily change this later
 		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy/MM/dd");
-		DateTime beginDate = DateTime.parse("1900/01/01",dateTimeFormatter);
-		DateTime endDate = DateTime.now();
+		String beginDate ="1900/01/01";
+		String endDate = "NOW";
 		return StockDownloader.Download(Symbol,beginDate,endDate);
 	}
 	
