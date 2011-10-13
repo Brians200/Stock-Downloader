@@ -109,7 +109,7 @@ public class StockDownloader {
 		}
 		catch(IOException e)
 		{
-			System.out.println("CAN'T READ");
+			System.out.println("THERE IS NO DATA");
 			System.out.println(e);
 		}
 		
