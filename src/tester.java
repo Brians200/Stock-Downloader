@@ -20,7 +20,11 @@ public class tester {
 		
 		DateTime beginDate = DateTime.parse("2011/09/28",dateTimeFormatter);
 		DateTime endDate = DateTime.now();
-		ArrayList<StockObject> i = StockDownloader.Download("GOOG",beginDate,endDate);
+		
+		//ArrayList<StockObject> i = StockDownloader.Download("CERN",beginDate,endDate);
+		//ArrayList<StockObject> i = StockDownloader.DownloadEntireHistory("CERN");
+		//The above lines are examples, uncomment to run
+		ArrayList<StockObject> i = StockDownloader.DownloadEntireHistory("CERN");
 		
 		System.out.println("Downloaded " + i.size() + " lines");
 		for(StockObject a:i)

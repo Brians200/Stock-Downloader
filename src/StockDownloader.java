@@ -9,6 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * This actually performs the stock downloading and parsing
@@ -41,13 +43,14 @@ public class StockDownloader {
 			//and the TO date is: &d=01&e=19&f=2010
 			
 			//yahoo api uses [0-11] for months
-			url = new URL("http://ichart.yahoo.com/table.csv?s=GOOG&a="+ Integer.toString(beginDate.getMonthOfYear()-1) 
-																		+"&b="+ Integer.toString(beginDate.getDayOfMonth())
-																		+"&c="+ Integer.toString(beginDate.getYear())
-																		+"&d=" + Integer.toString(endDate.getMonthOfYear()-1) 
-																		+ "&e=" + Integer.toString(endDate.getDayOfMonth()) 
-																		+ "&f=" + Integer.toString(endDate.getYear()) 
-																		+ "&g=d&ignore=.csv");
+			url = new URL("http://ichart.yahoo.com/table.csv?s="+Symbol
+																+"&a="+ Integer.toString(beginDate.getMonthOfYear()-1) 
+																+"&b="+ Integer.toString(beginDate.getDayOfMonth())
+																+"&c="+ Integer.toString(beginDate.getYear())
+																+"&d=" + Integer.toString(endDate.getMonthOfYear()-1) 
+																+ "&e=" + Integer.toString(endDate.getDayOfMonth()) 
+																+ "&f=" + Integer.toString(endDate.getYear()) 
+																+ "&g=d&ignore=.csv");
 			urlConnection = url.openConnection();
 			inputStream = new InputStreamReader(urlConnection.getInputStream());
 			bufferedReader = new BufferedReader(inputStream);
@@ -90,6 +93,19 @@ public class StockDownloader {
 		
 		return retern;
 	}
+	
+	
+	public static ArrayList<StockObject> DownloadEntireHistory(String Symbol)
+	{
+		//Assuming that the entire History is jan 1, 1900  through NOW
+		//Can easily change this later
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+		DateTime beginDate = DateTime.parse("1900/01/01",dateTimeFormatter);
+		DateTime endDate = DateTime.now();
+		return StockDownloader.Download(Symbol,beginDate,endDate);
+	}
+	
 	
 	/**
 	 * This will strip each value from the CSV line.
