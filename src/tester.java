@@ -12,6 +12,8 @@ public class tester {
 	 */
 	public static void main(String[] args) {
 		ArrayList<StockObject> i = StockDownloader.Download("GOOG");
+		
+		System.out.println("Downloaded " + i.size() + " lines");
 		for(StockObject a:i)
 		{
 //TODO: ADD TO DATABASE
