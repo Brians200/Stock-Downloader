@@ -24,7 +24,7 @@ public class tester {
 		//ArrayList<StockObject> i = StockDownloader.Download("CERN",beginDate,endDate);
 		//ArrayList<StockObject> i = StockDownloader.DownloadEntireHistory("CERN");
 		//The above lines are examples, uncomment to run
-		ArrayList<StockObject> i = StockDownloader.DownloadEntireHistory("CERN");
+		ArrayList<StockObject> i = StockDownloader.DownloadEntireHistory("DIS");
 		
 		System.out.println("Downloaded " + i.size() + " lines");
 		for(StockObject a:i)
