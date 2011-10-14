@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="src/joda-time-2.0-javadoc.jar"/>
 	<classpathentry kind="lib" path="src/joda-time-2.0-sources.jar"/>
 	<classpathentry kind="lib" path="src/joda-time-2.0.jar"/>
+	<classpathentry kind="lib" path="src/mysql-connector-java-5.1.10-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
