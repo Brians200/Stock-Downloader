@@ -15,6 +15,10 @@ public class StockHistoryCreator {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				connect = DriverManager.getConnection("jdbc:mysql://mysql.cis.ksu.edu/bsweeney","bsweeney", "a1b2c3d4e5");
+				preparedStatement = connect.prepareStatement("TRUNCATE Stock");
+				preparedStatement.executeUpdate();
+				preparedStatement = connect.prepareStatement("TRUNCATE History");
+				preparedStatement.executeUpdate();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -23,14 +27,23 @@ public class StockHistoryCreator {
 				e.printStackTrace();
 			}
 			
+			
+			
 			ArrayList<CompanyObject> companies = CompanyDownloader.DownloadCompanyTables();
+			System.out.println(companies.size());
 			for(CompanyObject company:companies)
 			{
 				ArrayList<StockObject> stockHistory = StockDownloader.DownloadEntireHistory(company.symbol);
 				//INSERT COMPANY
-				String temp = "INSERT into Stock VALUES('"+company.exchange+"','"+company.symbol+"','"+company.name+"',"+company.ipoYear+",'"+company.industry+"',"+company.marketCap+",'"+company.sector+"')";
+				if(company.ipoYear.equals("n/a"))
+				{
+					company.ipoYear = "NULL";
+				}
+				String temp = "INSERT into Stock VALUES('"+company.exchange+"','"+company.symbol+"','"+"?"+"',"+company.ipoYear+",'"+company.industry+"',"+company.marketCap+",'"+company.sector+"')";
 				try {
 					preparedStatement = connect.prepareStatement(temp);
+					preparedStatement.setString(1,company.name);
+					
 					preparedStatement.executeUpdate();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
