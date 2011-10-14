@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class CompanyObject {
 	String symbol;
@@ -11,32 +13,32 @@ public class CompanyObject {
 	String summaryQuote;
 	String exchange;
 	
-	public CompanyObject(String[] a)
+	public CompanyObject(ArrayList<String> a)
 	{
-		symbol = a[0];
-		name = a[1];
-		lastSale = a[2];
-		marketCap = a[3];
-		adrTSO = a[4];
-		ipoYear = a[5];
-		sector = a[6];
-		industry = a[7];
-		summaryQuote = a[8];
-		exchange = a[9];
+		symbol = a.get(0);
+		name =a.get(1);
+		lastSale = a.get(2);
+		marketCap = a.get(3);
+		adrTSO = a.get(4);
+		ipoYear = a.get(5);
+		sector = a.get(6);
+		industry = a.get(7);
+		summaryQuote = a.get(8);
+		exchange = a.get(9);
 	}
 	
 	public String toString()
 	{
 		return "Symbol: "+ symbol+
-				"Name: " +name+
-				"Last Sale: " + lastSale +
-				"Market Cap: " + marketCap +
-				"ADR TSO: " + adrTSO +
-				"IPO Year: "+ipoYear+
-				"Sector: " +sector+
-				"Industry: " + industry+
-				"Summary Quote: "+ summaryQuote +
-				"Exchange: "+exchange;
+				"\tName: " +name+
+				"\tLast Sale: " + lastSale +
+				"\tMarket Cap: " + marketCap +
+				"\tADR TSO: " + adrTSO +
+				"\tIPO Year: "+ipoYear+
+				"\tSector: " +sector+
+				"\tIndustry: " + industry+
+				"\tSummary Quote: "+ summaryQuote +
+				"\tExchange: "+exchange;
 	}
 
 }

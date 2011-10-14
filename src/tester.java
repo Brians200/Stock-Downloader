@@ -14,7 +14,7 @@ public class tester {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		
 		String beginDate = "2011/09/28";
 		String endDate = "NOW";
@@ -29,6 +29,6 @@ public class tester {
 //TODO: ADD TO DATABASE
 			System.out.println(a);
 		}
-	}
+	}*/
 
 }
