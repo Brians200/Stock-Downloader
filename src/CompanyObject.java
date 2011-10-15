@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 
-public class CompanyObject {
+public class CompanyObject{
 	String symbol;
 	String name;
 	String lastSale;
@@ -40,5 +40,4 @@ public class CompanyObject {
 				"\tSummary Quote: "+ summaryQuote +
 				"\tExchange: "+exchange;
 	}
-
 }
