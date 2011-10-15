@@ -1,6 +1,6 @@
 This program inserts all the companies in the 3 exchanges as well as their histories in to the appropriate tables.
 ONLY RUN THIS ONCE. 
 
-TODO: Add an additional class to StockHistoryCreator that makes an SQL query that pulls the list of companies as well as the last date for the data currently stored.
+TODO: Add an additional method to StockHistoryCreator that makes an SQL query that pulls the list of companies as well as the last date for the data currently stored.
 Then for each company, use the StockDownloader.Download(currentCompany, lastDate+1, "NOW");
 to figure out lastDate+1, use JodaTime's .plusDays(1) method
