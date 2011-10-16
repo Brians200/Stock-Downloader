@@ -67,8 +67,9 @@ public class StockHistoryCreator {
 			PreparedStatement prep2 = null;
 			while(resultSet.next())
 			{
-				System.out.println(++done);
-				ArrayList<StockObject> stockhistory = StockDownloader.UpdateData(resultSet.getString("symbol"), previousDate);
+				String symbol = resultSet.getString("symbol");
+				System.out.println((++done) + " - " + symbol );
+				ArrayList<StockObject> stockhistory = StockDownloader.UpdateData(symbol, previousDate);
 				for(StockObject stockObject: stockhistory)
 				{
 					String sqlStatement = "INSERT into History VALUES('"+resultSet.getString("ename")+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")";
@@ -78,6 +79,8 @@ public class StockHistoryCreator {
 				}
 				
 			}
+			preparedStatement.close();
+			System.out.println("======================================");
 			System.out.println("Downloaded Data from: " + previousDate);
 			
 		} catch (SQLException e) {
