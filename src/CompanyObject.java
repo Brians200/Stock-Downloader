@@ -1,3 +1,8 @@
+/**
+ * This class is used to hold information about a specific company
+ * @author brian
+ *
+ */
 import java.util.ArrayList;
 
 

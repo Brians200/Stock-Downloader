@@ -19,6 +19,15 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class StockDownloader {
 	
+	public static ArrayList<StockObject> UpdateData(String Symbol, String LastDate)
+	{
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+		DateTime previousDate = DateTime.parse(LastDate,dateTimeFormatter);
+		previousDate = previousDate.plusDays(1);
+		return Download(Symbol,previousDate.toString(dateTimeFormatter),"NOW");
+		
+	}
+	
 	/**
 	 * This returns an ArrayList of the StockObjects
 	 * for the date range and symbol given
