@@ -16,6 +16,10 @@
 import java.util.ArrayList;
 import java.sql.*;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 public class StockHistoryCreator {
 
 	/**
@@ -61,28 +65,39 @@ public class StockHistoryCreator {
 			preparedStatement.close();
 			resultSet.close();
 			
-			preparedStatement = connect.prepareStatement("Select symbol,ename from Stock");
-			resultSet=preparedStatement.executeQuery();
+			DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+			DateTime todaysDate = DateTime.now();
+			String today = todaysDate.toString(dateTimeFormatter);
 			
-			PreparedStatement prep2 = null;
-			while(resultSet.next())
+			if(!today.equals(previousDate))
 			{
-				String symbol = resultSet.getString("symbol");
-				System.out.println((++done) + " - " + symbol );
-				ArrayList<StockObject> stockhistory = StockDownloader.UpdateData(symbol, previousDate);
-				for(StockObject stockObject: stockhistory)
-				{
-					String sqlStatement = "INSERT into History VALUES('"+resultSet.getString("ename")+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")";
-					prep2 = connect.prepareStatement(sqlStatement);
-					prep2.executeUpdate();
-					prep2.close();
-				}
 				
+				preparedStatement = connect.prepareStatement("Select symbol,ename from Stock");
+				resultSet=preparedStatement.executeQuery();
+				
+				PreparedStatement prep2 = null;
+				while(resultSet.next())
+				{
+					String symbol = resultSet.getString("symbol");
+					System.out.println((++done) + " - " + symbol );
+					ArrayList<StockObject> stockhistory = StockDownloader.UpdateData(symbol, previousDate);
+					for(StockObject stockObject: stockhistory)
+					{
+						String sqlStatement = "INSERT into History VALUES('"+resultSet.getString("ename")+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")";
+						prep2 = connect.prepareStatement(sqlStatement);
+						prep2.executeUpdate();
+						prep2.close();
+					}
+					
+				}
+				preparedStatement.close();
+				System.out.println("======================================");
+				System.out.println("Downloaded Data from: " + previousDate);
 			}
-			preparedStatement.close();
-			System.out.println("======================================");
-			System.out.println("Downloaded Data from: " + previousDate);
-			
+			else
+			{
+				System.out.println("Current date: "+today+" is already in the tables");
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
