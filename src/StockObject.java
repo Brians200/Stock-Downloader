@@ -29,13 +29,13 @@ public class StockObject {
 	
 	public String toString()
 	{
-		return  "Symbol: "+symbol+
-				"\tDate: "+date+
-				"\t Open: "+open+
-				"\t High: "+high+
-				"\t Low: "+low+
-				"\t Close: "+close+
-				"\t Volume: "+volume+
-				"\t Adj Close:"+adjClose;
+		return  "'"+symbol+"'"+
+				", '"+date+"'"+
+				", "+high+
+				", "+low+
+				", "+close+
+				", "+volume+
+				", "+adjClose+
+				")";
 	}
 }

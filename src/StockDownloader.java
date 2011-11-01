@@ -131,7 +131,7 @@ public class StockDownloader {
 		//Assuming that the entire History is jan 1, 1900  through NOW
 		//Can easily change this later
 		
-		String beginDate ="2010/01/01";
+		String beginDate ="2011/01/01";
 		String endDate = "NOW";
 		return StockDownloader.Download(Symbol,beginDate,endDate);
 	}

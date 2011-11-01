@@ -34,7 +34,20 @@ public class StockHistoryCreator {
 	 */
 	public static void main(String[] args) {
 //TODO: Remove this method
-		UpdateToCurrentData();
+		
+		if(args[0].equals("1"))
+		{
+			UpdateToCurrentData();
+		}
+		else if(args[0].equals("2"))
+		{
+			DownloadCompaniesAndHistories();
+		}
+		else
+		{
+			System.out.println("1 to updateToCurrentData\n2 to DownloadCompaniesAndHistories");
+		}
+	
 	}
 	
 	/**
@@ -56,6 +69,7 @@ public class StockHistoryCreator {
 		}
 		
 		try {
+			System.out.println(new DateTime().now());
 			int done=0;
 			preparedStatement = connect.prepareStatement("Select max(date) from History");
 			resultSet=preparedStatement.executeQuery();
@@ -72,6 +86,8 @@ public class StockHistoryCreator {
 			if(!today.equals(previousDate))
 			{
 				
+				String historySqlString = "INSERT into History VALUES ";
+				
 				preparedStatement = connect.prepareStatement("Select symbol,ename from Stock");
 				resultSet=preparedStatement.executeQuery();
 				
@@ -79,20 +95,29 @@ public class StockHistoryCreator {
 				while(resultSet.next())
 				{
 					String symbol = resultSet.getString("symbol");
-					System.out.println((++done) + " - " + symbol );
+					//System.out.println((++done) + " - " + symbol );
 					ArrayList<StockObject> stockhistory = StockDownloader.UpdateData(symbol, previousDate);
 					for(StockObject stockObject: stockhistory)
 					{
-						String sqlStatement = "INSERT into History VALUES('"+resultSet.getString("ename")+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")";
+						historySqlString = historySqlString + new String("('"+resultSet.getString("ename")+"',"+stockObject.toString()+",");
+						/*String sqlStatement = "INSERT into History VALUES('"+resultSet.getString("ename")+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")";
 						prep2 = connect.prepareStatement(sqlStatement);
 						prep2.executeUpdate();
-						prep2.close();
+						prep2.close();*/
 					}
 					
 				}
+				
+				historySqlString = "" + historySqlString.substring(0,historySqlString.length()-1);
+				
+				prep2 = connect.prepareStatement(historySqlString);
+				prep2.execute();
+				prep2.close();
+				resultSet.close();
 				preparedStatement.close();
 				System.out.println("======================================");
 				System.out.println("Downloaded Data from: " + previousDate);
+				System.out.println(new DateTime().now());
 			}
 			else
 			{
@@ -102,9 +127,6 @@ public class StockHistoryCreator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-	
 	}
 	
 	/**
@@ -149,7 +171,7 @@ public class StockHistoryCreator {
 				company.ipoYear = "NULL";
 			}
 			System.out.println(done++);
-			String temp = new String("INSERT into Stock VALUES('"+company.exchange+"','"+company.symbol+"',"+"?"+","+company.ipoYear+",'"+company.industry+"',"+company.marketCap+",'"+company.sector+"')");
+			String temp = new String("INSERT into Stock (ename,symbol,cname,ipoyear,industry,marketCap,sector) VALUES('"+company.exchange+"','"+company.symbol+"',"+"?"+","+company.ipoYear+",'"+company.industry+"',"+company.marketCap+",'"+company.sector+"')");
 			try {
 				preparedStatement = connect.prepareStatement(temp);
 				preparedStatement.setString(1,company.name);
@@ -166,7 +188,7 @@ public class StockHistoryCreator {
 				//System.out.println(company);
 				StockObject stockObject = stockHistory.get(0);
 				try {
-					String temp2 = new String("INSERT into History VALUES('"+company.exchange+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")");
+					String temp2 = new String("INSERT into History (ename,symbol,tdate,high,low,EOD,volume,adjclose)VALUES('"+company.exchange+"','"+stockObject.symbol+"','"+stockObject.date+"',"+stockObject.high+","+stockObject.low+","+stockObject.close+","+stockObject.volume+","+stockObject.adjClose+")");
 					preparedStatement = connect.prepareStatement(temp2);
 					preparedStatement.executeUpdate();
 					preparedStatement.close();
