@@ -88,7 +88,7 @@ public class StockHistoryCreator {
 				
 				String historySqlString = "INSERT into History (ename,symbol,tdate,high,low,EOD,volume,adjclose)VALUES ";
 				
-				preparedStatement = connect.prepareStatement("Select symbol,ename from stock");
+				preparedStatement = connect.prepareStatement("Select symbol,ename from Stock");
 				resultSet=preparedStatement.executeQuery();
 				
 				PreparedStatement prep2 = null;
@@ -141,7 +141,7 @@ public class StockHistoryCreator {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection("jdbc:mysql://mysql.cis.ksu.edu/bsweeney","bsweeney", "a1b2c3d4e5");
-			preparedStatement = connect.prepareStatement("TRUNCATE stock");
+			preparedStatement = connect.prepareStatement("TRUNCATE Stock");
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
 			preparedStatement = connect.prepareStatement("TRUNCATE History");
@@ -171,7 +171,7 @@ public class StockHistoryCreator {
 				company.ipoYear = "NULL";
 			}
 			System.out.println(done++);
-			String temp = new String("INSERT into stock (ename,symbol,cname,ipoyear,industry,marketCap,sector) VALUES('"+company.exchange+"','"+company.symbol+"',"+"?"+","+company.ipoYear+",'"+company.industry+"',"+company.marketCap+",'"+company.sector+"')");
+			String temp = new String("INSERT into Stock (ename,symbol,cname,ipoyear,industry,marketCap,sector) VALUES('"+company.exchange+"','"+company.symbol+"',"+"?"+","+company.ipoYear+",'"+company.industry+"',"+company.marketCap+",'"+company.sector+"')");
 			try {
 				preparedStatement = connect.prepareStatement(temp);
 				preparedStatement.setString(1,company.name);
