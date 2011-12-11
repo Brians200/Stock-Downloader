@@ -23,6 +23,7 @@ import org.joda.time.format.DateTimeFormatter;
  * @author brian
  *
  */
+@SuppressWarnings("unused")
 public class StockDownloader {
 	
 	public static ArrayList<StockObject> UpdateData(String Symbol, String LastDate)

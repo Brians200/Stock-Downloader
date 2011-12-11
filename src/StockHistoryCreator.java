@@ -79,7 +79,8 @@ public class StockHistoryCreator {
 		}
 		
 		try {
-			System.out.println(new DateTime().now());
+			//This is for keeping track of how long it takes.
+			//System.out.println(new DateTime().now());
 			int done=0;
 			preparedStatement = connect.prepareStatement("Select max(tdate) from History");
 			resultSet=preparedStatement.executeQuery();
@@ -127,7 +128,8 @@ public class StockHistoryCreator {
 				//preparedStatement.close();
 				System.out.println("======================================");
 				System.out.println("Downloaded Data from: " + previousDate);
-				System.out.println(new DateTime().now());
+				//used for keeping track fo how long it takes
+				//System.out.println(new DateTime().now());
 			}
 			else
 			{
