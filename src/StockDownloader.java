@@ -1,9 +1,15 @@
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,6 +80,7 @@ public class StockDownloader {
 			//and the TO date is: &d=01&e=19&f=2010
 			
 			//yahoo api uses [0-11] for months
+			
 			url = new URL("http://ichart.yahoo.com/table.csv?s="+Symbol
 																+"&a="+ Integer.toString(beginDate.getMonthOfYear()-1) 
 																+"&b="+ Integer.toString(beginDate.getDayOfMonth())
@@ -85,7 +92,6 @@ public class StockDownloader {
 			urlConnection = url.openConnection();
 			inputStream = new InputStreamReader(urlConnection.getInputStream());
 			bufferedReader = new BufferedReader(inputStream);
-			
 			while(true)
 			{
 				nextLine = bufferedReader.readLine();
@@ -110,6 +116,56 @@ public class StockDownloader {
 					break;
 				}
 			}
+			
+			
+			/*//attempt to make this faster
+			
+			ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+		    FileOutputStream fos = new FileOutputStream("tempFile.txt");
+		    fos.getChannel().transferFrom(rbc, 0, 1 << 24);
+		    fos.close();
+		    
+		    
+		    FileInputStream fstream = new FileInputStream("tempFile.txt");
+		    // Get the object of DataInputStream
+		    DataInputStream in = new DataInputStream(fstream);
+		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		    String strLine;
+		    //Read File Line By Line
+		    
+		    //Burn first line
+		    br.readLine();
+		    
+		    while ((strLine = br.readLine()) != null)   {
+		    	ArrayList<String> currentLine = split(strLine);
+				StockObject stockObject;
+				try
+				{
+					stockObject = new StockObject(Symbol,currentLine.get(0), currentLine.get(1), currentLine.get(2), currentLine.get(3), currentLine.get(4), currentLine.get(5), currentLine.get(6));
+				}catch (Exception e)
+				{
+					//The first line from the stream is 
+					//Date,Open,High,Low,Close,Volume,Adj Close
+					//which we don't care about
+					continue;
+				}
+				retern.add(stockObject);
+		    }
+		    //Close the input stream
+		    in.close();
+		    
+		    
+		    //now delete temp file
+		 // Construct a File object for the file to be deleted.
+		      File target = new File("tempFile.txt");
+
+
+		      // Quick, now, delete it immediately:
+		      target.delete();
+		      
+		      */
+		    
+		    
 		}
 		catch(MalformedURLException e)
 		{
@@ -121,6 +177,8 @@ public class StockDownloader {
 			System.out.println("THERE IS NO DATA");
 			System.out.println(e);
 		}
+			
+			
 		
 		return retern;
 	}
